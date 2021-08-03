@@ -124,7 +124,7 @@ add_user(){
 	EOF
     wg set wg0 peer $(cat tempubkey) allowed-ips 10.0.0.$newnum/24
     echo -e "\033[37;41m添加完成，文件：/etc/wireguard/$newname.conf\033[0m"
-    rm -f temprikey tempubkey
+    sudo rm -f temprikey tempubkey
 }
 
 #开始菜单
@@ -170,9 +170,3 @@ start_menu(){
 }
 
 start_menu
-
-
-
-
-
-
