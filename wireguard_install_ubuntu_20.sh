@@ -22,12 +22,8 @@ wireguard_install(){
     # sudo apt-get update -y
     # sudo apt-get install -y wireguard curl
 
-    sudo echo net.ipv4.ip_forward = 1 >> /etc/sysctl.conf
-    sudo sysctl -p
-    sudo echo "1"> /proc/sys/net/ipv4/ip_forward
-    sudo ufw allow 51820/udp
 
-    sudo mkdir /etc/wireguard
+    mkdir /etc/wireguard
     cd /etc/wireguard
     wg genkey | sudo tee sprivatekey | sudo wg pubkey > spublickey
     wg genkey | sudo tee cprivatekey | sudo wg pubkey > cpublickey
@@ -95,6 +91,11 @@ wireguard_install(){
     fi
     
     sudo wg-quick up wg0
+    
+    sudo echo net.ipv4.ip_forward = 1 >> /etc/sysctl.conf
+    sudo sysctl -p
+    sudo echo "1"> /proc/sys/net/ipv4/ip_forward
+    sudo ufw allow 51820/udp
     
     content=$(cat /etc/wireguard/client.conf)
     echo -e "\033[43;42m电脑端请下载/etc/wireguard/client.conf，手机端可直接使用软件扫码\033[0m"
