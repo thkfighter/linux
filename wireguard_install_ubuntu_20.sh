@@ -48,9 +48,9 @@ wireguard_install(){
 
 	[Peer]
 	PublicKey = $c2
-	AllowedIPs = 10.0.0.2/24
+	AllowedIPs = 10.0.0.2
 	EOF
-
+    # AllowedIPs = 10.0.0.2/32
 
 	sudo cat > /etc/wireguard/client.conf <<-EOF
 	[Interface]
@@ -124,9 +124,12 @@ add_user(){
 	cat >> /etc/wireguard/wg0.conf <<-EOF
 	[Peer]
 	PublicKey = $(cat tempubkey)
-	AllowedIPs = 10.0.0.$newnum/24
+	AllowedIPs = 10.0.0.$newnum
 	EOF
+    # AllowedIPs = 10.0.0.$newnum/32
+
     wg set wg0 peer $(cat tempubkey) allowed-ips 10.0.0.$newnum
+    # wg set wg0 peer $(cat tempubkey) allowed-ips 10.0.0.$newnum/32
     echo -e "\033[37;41m添加完成，文件：/etc/wireguard/$newname.conf\033[0m"
     sudo rm -f temprikey tempubkey
 }
