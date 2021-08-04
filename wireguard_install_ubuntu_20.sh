@@ -11,7 +11,8 @@ wireguard_install(){
     version=$(cat /etc/os-release | awk -F '[".]' '$1=="VERSION="{print $2}')
     if [ $version == 20 ]; then
         sudo apt-get update -y
-        sudo apt-get install -y wireguard curl
+        sudo apt-get install -y wireguard curl resolvconf 
+        # /usr/bin/wg-quick: line 32: resolvconf: command not found
     #else
      #   sudo apt-get update -y
       #  sudo apt-get install -y software-properties-common
@@ -23,7 +24,8 @@ wireguard_install(){
     sudo echo net.ipv4.ip_forward = 1 >> /etc/sysctl.conf
     sudo sysctl -p
     sudo echo "1"> /proc/sys/net/ipv4/ip_forward
-    
+    sudo ufw allow 51820/udp
+
     sudo mkdir /etc/wireguard
     cd /etc/wireguard
     wg genkey | sudo tee sprivatekey | sudo wg pubkey > spublickey
