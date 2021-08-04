@@ -96,7 +96,7 @@ wireguard_install(){
     sudo sysctl -p
     sudo echo "1"> /proc/sys/net/ipv4/ip_forward
     sudo ufw allow 51820/udp
-    
+
     content=$(cat /etc/wireguard/client.conf)
     echo -e "\033[43;42m电脑端请下载/etc/wireguard/client.conf，手机端可直接使用软件扫码\033[0m"
     echo "${content}" | qrencode -o - -t UTF8
@@ -114,8 +114,8 @@ add_user(){
     echo -e "\033[37;41m给新用户起个名字，不能和已有用户重复\033[0m"
     read -p "请输入用户名：" newname
     cd /etc/wireguard/
-    sudo cp client.conf $newname.conf
-    wg genkey | sudo tee temprikey | sudo wg pubkey > tempubkey
+    cp client.conf $newname.conf
+    wg genkey | sudo tee temprikey | wg pubkey | sudo tee tempubkey
     ipnum=$(grep Allowed /etc/wireguard/wg0.conf | tail -1 | awk -F '[ ./]' '{print $6}')
     newnum=$((10#${ipnum}+1))
     sed -i 's%^PrivateKey.*$%'"PrivateKey = $(cat temprikey)"'%' $newname.conf
