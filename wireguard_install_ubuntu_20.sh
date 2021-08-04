@@ -126,7 +126,7 @@ add_user(){
 	PublicKey = $(cat tempubkey)
 	AllowedIPs = 10.0.0.$newnum/24
 	EOF
-    wg set wg0 peer $(cat tempubkey) allowed-ips 10.0.0.$newnum/24
+    wg set wg0 peer $(cat tempubkey) allowed-ips 10.0.0.$newnum
     echo -e "\033[37;41m添加完成，文件：/etc/wireguard/$newname.conf\033[0m"
     sudo rm -f temprikey tempubkey
 }
