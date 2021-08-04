@@ -83,12 +83,12 @@ wireguard_install(){
 	EOF
 
     sudo chmod +x /etc/init.d/wgstart
-    cd /etc/init.d
+    # cd /etc/init.d
     if [ $version == 14 ]
     then
-        sudo update-rc.d wgstart defaults 90
+        sudo update-rc.d /etc/init.d/wgstart defaults 90
     else
-        sudo update-rc.d wgstart defaults
+        sudo update-rc.d /etc/init.d/wgstart defaults
     fi
     
     sudo wg-quick up wg0
