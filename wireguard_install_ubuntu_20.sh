@@ -9,6 +9,7 @@ rand(){
 
 wireguard_install(){
     version=$(cat /etc/os-release | awk -F '[".]' '$1=="VERSION="{print $2}')
+    echo $version
     if [ $version == 20 ]; then
         sudo apt-get update -y
         sudo apt-get install -y wireguard curl resolvconf 
@@ -43,9 +44,9 @@ wireguard_install(){
 	[Interface]
 	PrivateKey = $s1
 	Address = 10.0.0.1/24 
-	PostUp = iptables -A FORWARD -i %i -j ACCEPT; iptables -t nat -A POSTROUTING -o ens3 -j MASQUERADE
-	PostDown = iptables -D FORWARD -i %i -j ACCEPT; iptables -t nat -D POSTROUTING -o ens3 -j MASQUERADE
 	ListenPort = $port
+	PostUp = iptables -A FORWARD -i %i -j ACCEPT; iptables -t nat -A POSTROUTING -o $eth -j MASQUERADE
+	PostDown = iptables -D FORWARD -i %i -j ACCEPT; iptables -t nat -D POSTROUTING -o $eth -j MASQUERADE
 	DNS = 8.8.8.8
 	MTU = 1420
 
